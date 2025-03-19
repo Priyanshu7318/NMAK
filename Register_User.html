@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #0b0f3f;
+            color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        h2 {
+            color: #1a237e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: calc(100% - 18px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #1a237e;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a237e;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @media (max-width: 450px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Register User</h2>
+        <form id="signInForm">
+            <label for="mobile">Mobile No.</label>
+            <input type="tel" id="mobile" name="mobile" required>
+            <button type="button" id="sendMobileOtp">Send OTP</button>
+            <input type="text" id="mobileOtp" name="mobileOtp" placeholder="Enter Mobile OTP"required>
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="address">Address</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="aadhar">Aadhar Number</label>
+            <input type="text" id="aadhar" name="aadhar" placeholder="Enter 12-digit Aadhar Number" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="submit">Submit</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        let storedOtp = null; 
+    
+        function generateOtp() {
+            return Math.floor(1000 + Math.random() * 9000); 
+        }
+    
+        document.getElementById('sendMobileOtp').addEventListener('click', function () {
+            const mobile = document.getElementById('mobile').value;
+            if (/^\d{10}$/.test(mobile)) {
+                storedOtp = generateOtp(); // Store OTP
+                this.disabled = true;
+                document.getElementById('mobile').disabled = true;
+                document.getElementById('mobileOtp').disabled = false;
+                alert("Mobile OTP sent successfully: Your OTP is " + storedOtp);
+            } else {
+                alert("Please enter a valid 10-digit mobile number.");
+            }
+        });
+    
+        const signInForm = document.getElementById('signInForm');
+        const errorMessage = document.getElementById('errorMessage');
+    
+        signInForm.addEventListener('submit', () => { // No event.preventDefault()
+            const mobileOtpInput = document.getElementById('mobileOtp').value;
+            const passwordInput = document.getElementById('password').value;
+            const confirmPasswordInput = document.getElementById('confirmPassword').value;
+    
+            if (mobileOtpInput != storedOtp) {
+                errorMessage.textContent = "Incorrect OTP. Please try again.";
+                return false;
+            }
+    
+            if (passwordInput !== confirmPasswordInput) {
+                errorMessage.textContent = "Passwords do not match!";
+                return false;
+            }
+    
+            const requiredFields = signInForm.querySelectorAll('input[required], select[required], textarea[required]');
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    errorMessage.textContent = "All fields are required.";
+                    return false;
+                }
+            }
+    
+            alert("Registration successful!");
+            window.location.href = "NMAK.hmtl";
+        });
+    </script> 
+
+</body>
+</html>

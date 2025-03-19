@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Legal AI Assistant</title>
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #3b79b7;
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: floatIn 0.6s ease-out forwards;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        @keyframes floatIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Chat Header */
+        .chat-header {
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header::before {
+            content: '⚖️';
+            font-size: 1.8em;
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Message Styles */
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 85%;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: messageIn 0.4s ease-out forwards;
+            position: relative;
+        }
+
+        @keyframes messageIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            background: #1a237e;
+            color: white;
+            margin-left: auto;
+            border-radius: 20px 20px 5px 20px;
+        }
+
+        .bot-message {
+            background: #f1f5f9;
+            color: #1a237e;
+            margin-right: auto;
+            border-radius: 5px 20px 20px 20px;
+        }
+
+        /* Input Area */
+        .chat-input {
+            display: flex;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            margin-right: 15px;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        #send-btn {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #send-btn:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        /* Legal Cards */
+        .legal-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #1a237e;
+        }
+
+        .legal-title {
+            color: #1a237e;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #1a237e;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chatbot-container">
+    <div class="chat-header">NMAK AI Assistant</div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Ask legal question...">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+// Expanded Legal Database
+const legalDatabase = {
+    "IPC": {
+        "302": {
+            title: "IPC 302 - Murder",
+            content: "Punishment: Death or life imprisonment with fine. Essential elements:",
+            elements: ["Intention to cause death", "Knowledge of lethal consequences"],
+            cases: ["Bachan Singh v. State of Punjab (1980)"]
+        },
+        "376": {
+            title: "IPC 376 - Rape",
+            content: "Punishment: Minimum 10 years imprisonment, extendable to life.",
+            amendments: "Criminal Law (Amendment) Act, 2013",
+            cases: ["Nirbhaya Case (2012)"]
+        },
+        "498A": {
+            title: "IPC 498A - Cruelty by Husband/Relatives",
+            content: "Punishment: Up to 3 years + fine. Includes:",
+            elements: ["Willful conduct", "Harassment for dowry"],
+            cases: ["Arnesh Kumar v. State of Bihar (2014)"]
+        },
+        "354": {
+            title: "IPC 354 - Assault on Women",
+            content: "Punishment: Up to 5 years + fine. Includes:",
+            elements: ["Outraging modesty", "Physical contact without consent"]
+        }
+    },
+    "Constitution": {
+        "21": {
+            title: "Article 21 - Right to Life",
+            content: "Protects life and personal liberty. Includes:",
+            rights: ["Right to privacy", "Right to clean environment", "Right to health"]
+        },
+        "32": {
+            title: "Article 32 - Constitutional Remedies",
+            content: "Right to move Supreme Court for enforcement of fundamental rights."
+        }
+    },
+    "CrPC": {
+        "154": {
+            title: "Section 154 - FIR Registration",
+            content: "Police must register FIR for cognizable offenses immediately."
+        },
+        "438": {
+            title: "Section 438 - Anticipatory Bail",
+            content: "Court can grant bail in anticipation of arrest."
+        }
+    },
+    "Judgments": {
+        "Vishaka": {
+            title: "Vishaka v. State of Rajasthan (1997)",
+            content: "Established guidelines against workplace sexual harassment."
+        },
+        "ShayaraBano": {
+            title: "Shayara Bano v. UOI (2017)",
+            content: "Declared triple talaq unconstitutional."
+        }
+    },
+    "general": {
+        "default": "I can explain: IPC sections, Constitution articles, Legal procedures. Try: 'Explain IPC 302' or 'Article 21'"
+    }
+};
+
+// DOM Elements
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+
+// Show Typing Indicator
+function showTyping() {
+    const typing = document.createElement('div');
+    typing.className = 'typing-indicator';
+    typing.innerHTML = `
+        <div class="typing-dot" style="animation-delay: 0s"></div>
+        <div class="typing-dot" style="animation-delay: 0.2s"></div>
+        <div class="typing-dot" style="animation-delay: 0.4s"></div>
+    `;
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Remove Typing Indicator
+function removeTyping() {
+    const indicators = document.querySelectorAll('.typing-indicator');
+    indicators.forEach(indicator => indicator.remove());
+}
+
+// Create Message Element
+function createMessage(content, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.innerHTML = content;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Generate Legal Response
+function generateResponse(query) {
+    const lowerQuery = query.toLowerCase();
+    
+    // Check IPC sections
+    const ipcMatch = lowerQuery.match(/ipc\s*(\d+[a-z]?)|section\s*(\d+)/i);
+    if(ipcMatch) {
+        const section = ipcMatch[1] || ipcMatch[2];
+        if(legalDatabase.IPC[section]) {
+            const data = legalDatabase.IPC[section];
+            return `
+                <div class="legal-card">
+                    <div class="legal-title">${data.title}</div>
+                    <div>${data.content}</div>
+                    ${data.elements ? `<ul>${data.elements.map(e => `<li>${e}</li>`).join('')}</ul>` : ''}
+                    ${data.cases ? `<em>Landmark Case: ${data.cases[0]}</em>` : ''}
+                </div>
+            `;
+        }
+    }
+
+    // Check Constitution articles
+    const constMatch = lowerQuery.match(/article\s*(\d+)/i);
+    if(constMatch) {
+        const article = constMatch[1];
+        if(legalDatabase.Constitution[article]) {
+            const data = legalDatabase.Constitution[article];
+            return `
+                <div class="legal-card">
+                    <div class="legal-title">${data.title}</div>
+                    <div>${data.content}</div>
+                    ${data.rights ? `<ul>${data.rights.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
+                </div>
+            `;
+        }
+    }
+
+    // Check Judgments
+    if(lowerQuery.includes('vishaka')) {
+        return formatJudgment(legalDatabase.Judgments.Vishaka);
+    }
+    if(lowerQuery.includes('shayara')) {
+        return formatJudgment(legalDatabase.Judgments.ShayaraBano);
+    }
+
+    // Default response
+    return `<div class="legal-card">${legalDatabase.general.default}</div>`;
+}
+
+function formatJudgment(judgment) {
+    return `
+        <div class="legal-card">
+            <div class="legal-title">${judgment.title}</div>
+            <div>${judgment.content}</div>
+        </div>
+    `;
+}
+
+// Handle User Input
+async function handleSubmit() {
+    try {
+        const question = userInput.value.trim();
+        if(!question) return;
+
+        // Add user message
+        createMessage(question, true);
+        userInput.value = '';
+
+        // Show typing indicator
+        showTyping();
+
+        // Simulate processing delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        removeTyping();
+
+        // Generate and show response
+        const response = generateResponse(question);
+        createMessage(response);
+
+    } catch (error) {
+        console.error('Error:', error);
+        createMessage("Sorry, I encountered an error. Please try again.");
+    }
+}
+
+// Event Listeners
+sendBtn.addEventListener('click', handleSubmit);
+userInput.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') handleSubmit();
+});
+
+// Initial Message
+setTimeout(() => {
+    createMessage(`
+        <div class="legal-card">
+            <div class="legal-title">Welcome to Legal AI Assistant</div>
+            <div>
+                I can help with:
+                <ul>
+                    <li>Indian Penal Code (IPC)</li>
+                    <li>Constitution of India</li>
+                    <li>Landmark Judgments</li>
+                    <li>Legal Procedures</li>
+                </ul>
+                Try: "Explain IPC 302" or "Article 21"
+            </div>
+        </div>
+    `);
+}, 500);
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .video-testimonials {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .video-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .video-card {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      opacity: 0; /* Start with opacity 0 for fade-in animation */
+      transform: translateY(20px); /* Start slightly below for fade-in animation */
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    .video-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .video-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .video-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .testimonial-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .video-card:hover .testimonial-video {
+      transform: scale(1.05); /* Scale up on hover */
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .video-grid {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="video-testimonials">
+    <h2 class="section-heading">Client Testimonials</h2>
+    
+    <div class="video-grid">
+        <!-- Video 1 -->
+        <div class="video-card">
+            <video 
+                class="testimonial-video" 
+                controls 
+                playsinline 
+                poster="bhanu ss.png"
+                aria-label="Client testimonial from John Doe"
+            >
+                <source src="WIN_20250205_23_09_46_Pro.mp4" type="video/mp4">
+                <track kind="captions" src="captions/testimonial1.vtt" srclang="en" label="English">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+            <video 
+                class="testimonial-video" 
+                controls 
+                playsinline 
+                poster="ajit ss.png"
+                aria-label="Client testimonial from Jane Smith"
+            >
+                <source src="WIN_20250205_23_21_09_Pro.mp4" type="video/mp4">
+                <track kind="captions" src="captions/testimonial2.vtt" srclang="en" label="English">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card">
+            <video 
+                class="testimonial-video" 
+                controls 
+                playsinline 
+                poster="anita ss.png"
+                aria-label="Client testimonial from Bob Johnson"
+            >
+                <source src="WhatsApp Video 2025-02-06 at 20.46.04_46345d47.mp4" type="video/mp4">
+                <track kind="captions" src="captions/testimonial3.vtt" srclang="en" label="English">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+  </section>
+</body>
+</html>

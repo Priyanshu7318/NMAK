@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMAK - No More Andha Kanoon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #FFD700;
+            --accent-color: #4a90e2;
+            --dark-color: #0a1035;
+            --light-color: #f8f9fa;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #444444;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 1rem;
+        }
+
+        .brand-name {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .brand-fullform {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
+            font-weight: normal;
+        }
+
+        .magic-btn {
+            padding: 30px 60px;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #ffd700, #daa520, #ffd700);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(218, 165, 32, 0.3);
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, 
+                      rgba(255,255,255,0.4) 0%, 
+                      rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .magic-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 25%,
+                rgba(255,255,255,0.3) 50%,
+                transparent 75%
+            );
+            transform: rotate(45deg);
+            animation: quiet-shine 6s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes quiet-shine {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+
+        .magic-btn:hover {
+            box-shadow: 0 12px 40px rgba(218, 165, 32, 0.5),
+                       inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .magic-btn:hover::before {
+            opacity: 1;
+        }
+
+        .magic-btn:active {
+            transform: scale(0.98);
+        }
+
+        .spark {
+            position: absolute;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 0.6s ease-out;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 1; }
+            90% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .categories {
+            padding: 6rem 5% 2rem;
+            background-color: white;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            min-height: 280px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid var(--light-color);
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            background: var(--primary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            transition: all 0.4s ease;
+        }
+
+        .category-card:hover .category-icon {
+            color: var(--secondary-color);
+            transform: scale(1.2) translateY(-20px);
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            transition: all 0.4s ease;
+            font-weight: 600;
+        }
+
+        .category-card:hover .category-title {
+            color: white;
+            transform: translateY(-40px);
+        }
+
+        .category-details {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.4s ease;
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            color: white;
+        }
+
+        .category-card:hover .category-details {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .category-details ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .category-details li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .category-details li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        .video-testimonials {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .video-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .video-card {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      opacity: 0; /* Start with opacity 0 for fade-in animation */
+      transform: translateY(20px); /* Start slightly below for fade-in animation */
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    .video-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .video-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .video-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .testimonial-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .video-card:hover .testimonial-video {
+      transform: scale(1.05); /* Scale up on hover */
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .video-grid {
+        gap: 1rem;
+      }
+    }
+
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .auth-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 500px;
+            position: relative;
+            transform: scale(0.9);
+            animation: scaleUp 0.3s forwards;
+        }
+
+        @keyframes scaleUp {
+            to { transform: scale(1); }
+        }
+
+        .auth-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .auth-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary-color);
+            border-color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .close-auth {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 5px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .auth-form input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-btn {
+            background: linear-gradient(45deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-section {
+            background: var(--light-color);
+            padding: 4rem 5%;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .about-section {
+            border-radius: 5px;
+            border: 2px solid var(--dark-color);
+            color: #1a237e;
+            font-size: large;
+            background: white;
+            padding: 4rem 5%;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid,
+            .contact-grid,
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-box {
+                width: 90%;
+            }
+
+            header {
+                padding: 1rem 3%;
+            }
+
+            .brand-name {
+                font-size: 1.5rem;
+            }
+
+            .brand-fullform {
+                font-size: 0.8rem;
+            }
+
+            .magic-btn {
+                padding: 20px 40px;
+                font-size: 1.2rem;
+            }
+        }
+        .category-card {
+    position: relative;
+    min-height: 320px; /* Increased height for better spacing */
+}
+
+.category-title {
+    position: relative;
+    z-index: 2; /* Ensure title stays above details */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 2rem;
+}
+
+.category-card:hover .category-title {
+    transform: translateY(-50px); /* Increased upward movement */
+    margin-bottom: 0;
+}
+
+.category-details {
+    opacity: 0;
+    transform: translateY(40px); /* Start from lower position */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s; /* Added slight delay */
+    position: absolute;
+    bottom: 3rem; /* Adjusted positioning */
+    left: 2rem;
+    right: 2rem;
+    z-index: 1; /* Keep below title */
+}
+
+.category-card:hover .category-details {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.category-details p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.category-details ul {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.3); /* Add separation line */
+}
+     /* Previous styles remain unchanged until .magic-btn */
+
+     .magic-btn {
+            padding: 30px 60px;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #dc143c, #8b0000, #dc143c);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 0 25px rgba(220, 20, 60, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(220, 20, 60, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.4),
+                transparent
+            );
+            transition: 0.5s;
+            animation: emergencyShine 3s infinite;
+        }
+
+        @keyframes emergencyShine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .magic-btn::after {
+            content: '⚠️';
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            font-size: 2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            animation: warningPulse 1s infinite;
+        }
+
+        @keyframes warningPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .magic-btn:hover {
+            animation: none;
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 0 45px rgba(220, 20, 60, 0.8),
+                       inset 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .magic-btn:hover::after {
+            opacity: 1;
+            transform: rotate(15deg);
+        }
+
+        .magic-btn:active {
+            transform: scale(0.95) rotate(2deg);
+        }
+
+        /* Enhanced Spark Animation */
+        .spark {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: emergencySpark 0.6s ease-out;
+        }
+
+        @keyframes emergencySpark {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2) translateY(-50px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.5) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        /* Add Emergency Ring Animation */
+        @keyframes emergencyRing {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(220, 20, 60, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 20, 60, 0);
+            }
+        }
+
+        .magic-btn:hover::before {
+            animation: emergencyShine 1s infinite, emergencyRing 1.5s infinite;
+        }
+        /* Chatbot Button Styles */
+.bot-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #2196f3, #1976d2);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+    transition: all 0.4s ease;
+    z-index: 9999;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chat icon styling */
+.bot-btn::before {
+    content: '💬';
+    font-size: 28px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+/* Water effect background */
+.bot-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: waterFlow 4s linear infinite;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover Effects */
+.bot-btn:hover {
+    transform: scale(1.1) rotate(360deg);
+    box-shadow: 0 12px 35px rgba(33, 150, 243, 0.5);
+}
+
+.bot-btn:hover::before {
+    transform: scale(1.2);
+}
+
+.bot-btn:hover::after {
+    animation: waterFlow 2s linear infinite;
+}
+
+/* Pulse effect on hover */
+.bot-btn:hover::after {
+    content: '';
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    animation: pulse 1.5s infinite;
+}
+
+/* Click effect */
+.bot-btn:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes waterFlow {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Optional: Add floating animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bot-btn {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Add chat bubble indicator */
+.bot-btn::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 15px;
+    height: 15px;
+    background: #ff4081;
+    border-radius: 50%;
+    animation: ping 1.5s infinite;
+}
+
+@keyframes ping {
+    75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+        
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="NMAKlogo.jpeg" class="logo" alt="NMAK Logo">
+            <div>
+                <div class="brand-name">NMAK</div>
+                <div class="brand-fullform">No More Andha Kanoon</div>
+            </div>
+        </div>
+        <a href="Emergency.html">
+            <button class="magic-btn" id="magicButton">
+            <span>EMERGENCY</span>
+        </button></a>
+        
+    </header>
+
+    <section class="categories">
+        <h2><br>
+            <br>Legal Specializations</h2>
+        <div class="categories-grid">
+            
+            <div class="category-card">
+                <i class="fas fa-gavel category-icon"></i>
+                <a href="criminal lawyer.html">
+                <h3 class="category-title">Criminal Law</h3>
+                <div class="category-details">
+                    <p>Expert defense attorneys for criminal cases</p>
+                    <ul>
+                        <li>24/7 Availability</li>
+                        <li>Case Evaluation</li>
+                        <li>Bail Assistance</li>
+                    </ul>
+                </div></a>
+            </div>
+
+            <div class="category-card">
+                <i class="fas fa-heart category-icon"></i>
+                <a href="family lawyer.html">
+                <h3 class="category-title">Family Law</h3>
+                <div class="category-details">
+                    <p>Expertise in family matters and disputes</p>
+                    <ul>
+                        <li>Divorce Cases</li>
+                        <li>Child Custody</li>
+                        <li>Alimony Issues</li>
+                    </ul>
+                </div></a>
+            </div>
+
+            <div class="category-card">
+                <i class="fas fa-briefcase category-icon"></i>
+                <a href="corporate lawyer.html">
+                <h3 class="category-title">Corporate Law</h3>
+                <div class="category-details">
+                    <p>Expertise in Corporate Matters</p>
+                    <ul>
+                        <li>Contract Review</li>
+                        <li>Mergers & Acquisitions</li>
+                        <li>Compliance</li>
+                    </ul>
+                </div></a>
+            </div>
+
+            <div class="category-card">
+                <i class="fas fa-home category-icon"></i>
+                <a href="realestate lawyer.html">
+                <h3 class="category-title">Real Estate Law</h3>
+                <div class="category-details">
+                    <p>Property and land matters</p>
+                    <ul>
+                        <li>Property Disputes</li>
+                        <li>Documentation</li>
+                        <li>Land Acquisition</li>
+                    </ul>
+                </div></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="video-testimonials">
+        <h2 class="section-heading">Client Testimonials</h2>
+        
+        <div class="video-grid">
+            <!-- Video 1 -->
+            <div class="video-card">
+                <video 
+                    class="testimonial-video" 
+                    controls 
+                    playsinline 
+                    poster="bhanu ss.png"
+                    aria-label="Client testimonial from John Doe"
+                >
+                    <source src="WIN_20250205_23_09_46_Pro.mp4" type="video/mp4">
+                    <track kind="captions" src="captions/testimonial1.vtt" srclang="en" label="English">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+    
+            <!-- Video 2 -->
+            <div class="video-card">
+                <video 
+                    class="testimonial-video" 
+                    controls 
+                    playsinline 
+                    poster="ajit ss.png"
+                    aria-label="Client testimonial from Jane Smith"
+                >
+                    <source src="WIN_20250205_23_21_09_Pro.mp4" type="video/mp4">
+                    <track kind="captions" src="captions/testimonial2.vtt" srclang="en" label="English">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+    
+            <!-- Video 3 -->
+            <div class="video-card">
+                <video 
+                    class="testimonial-video" 
+                    controls 
+                    playsinline 
+                    poster="anita ss.png"
+                    aria-label="Client testimonial from Bob Johnson"
+                >
+                    <source src="WhatsApp Video 2025-02-06 at 20.46.04_46345d47.mp4" type="video/mp4">
+                    <track kind="captions" src="captions/testimonial3.vtt" srclang="en" label="English">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+      </section>
+
+    <section class="contact-section">
+        <h2>Contact/Complaints</h2>
+        <div class="contact-grid">
+            <form class="contact-form" method="post" action="save.php">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="Varchar" name="P_no" placeholder="Lawyer's Professional number()">
+                <textarea rows="5" name="message" placeholder="Message" required></textarea>
+                <button type="submit" class="auth-btn">Send Message</button>
+            </form>
+            
+        </div>
+        <div align="right">
+            <a href="chatbot.html">
+                <button class="bot-btn" id="botButton">
+                <span>chatbot</span>
+            </button></a>
+        </div>
+    </section>
+
+    
+
+    <script>
+        const btn = document.getElementById('magicButton');
+        
+        btn.addEventListener('click', (e) => {
+            for(let i = 0; i < 10; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                spark.style.left = `${Math.random() * 100}%`;
+                spark.style.top = `${Math.random() * 100}%`;
+                spark.style.width = `${Math.random() * 10 + 5}px`;
+                spark.style.height = spark.style.width;
+                spark.style.animationDelay = `${i * 0.05}s`;
+                btn.appendChild(spark);
+                
+                setTimeout(() => spark.remove(), 600);
+            }
+        });
+
+        let currentStep = 1;
+        let generatedOTP;
+
+        function sendOTP() {
+            generatedOTP = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        }
+
+        function verifyOTP() {
+            const enteredOTP = document.querySelector('.otp-input').value;
+            if(enteredOTP == generatedOTP) {
+                document.getElementById('step2').style.display = 'none';
+                document.getElementById('step3').style.display = 'block';
+            } else {
+                alert('Invalid OTP!');
+            }
+        }
+
+        function showAuth(type) {
+            document.getElementById('authOverlay').style.display = 'flex';
+            switchAuth(type);
+        }
+
+        function closeAuth() {
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'none';
+        }
+
+        function switchAuth(type) {
+            document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.style.display = 'none');
+            
+            if(type === 'login') {
+                document.querySelector('[onclick="switchAuth(\'login\')"]').classList.add('active');
+                document.getElementById('loginForm').style.display = 'block';
+            } else {
+                document.querySelector('[onclick="switchAuth(\'signup\')"]').classList.add('active');
+                document.getElementById('signupForm').style.display = 'block';
+            }
+        }
+
+        document.getElementById('authOverlay').addEventListener('click', function(e) {
+            if(e.target === this) closeAuth();
+        });
+        // Add emergency shake animation
+        const shakeKeyframes = [
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-5px) rotate(-2deg)' },
+            { transform: 'translateX(5px) rotate(2deg)' },
+            { transform: 'translateX(0)' }
+        ];
+
+        const shakeTiming = {
+            duration: 100,
+            iterations: 4
+        };
+
+        CSSStyleSheet.prototype.insertRule(`@keyframes emergencyShake {
+            0% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-5px) rotate(-2deg); }
+            50% { transform: translateX(5px) rotate(2deg); }
+            75% { transform: translateX(-3px) rotate(-1deg); }
+            100% { transform: translateX(0) rotate(0); }
+        }`, 0);
+    </script>
+</body>
+</html>

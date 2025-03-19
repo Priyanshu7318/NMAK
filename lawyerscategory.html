@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Specialists</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0f3f;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .lawyer-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .lawyer-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .lawyer-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .lawyer-box:hover::before {
+            left: 100%;
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .lawyer-box h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Individual Box Colors */
+        .criminal .icon { color: #ff4757; }
+        .family .icon { color: #2ed573; }
+        .corporate .icon { color: #1e90ff; }
+        .real-estate .icon { color: #ffa502; }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .lawyer-box {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Hover Content */
+        .hover-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 15, 63, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: rotateY(180deg);
+            transition: all 0.5s ease;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 1rem;
+        }
+
+        .lawyer-box:hover .hover-content {
+            opacity: 1;
+            transform: rotateY(0deg);
+        }
+
+        .hover-content p {
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>  
+    <div class="container">
+
+        <a href="criminalreg.html">
+          <div class="lawyer-box criminal">
+            <i class="icon fas fa-gavel"></i>
+            <h2>Criminal</h2>
+            <h2>Lawyer</h2>
+            <div class="hover-content">
+                <p>Expert defense representation for criminal cases and legal protection</p>
+            </div>
+        </div>
+    </a>
+       
+       <a href="familyreg.html">
+        <div class="lawyer-box family">
+            <i class="icon fas fa-heart"></i>
+            <h2>Family </h2>
+            <h2>Lawyer</h2>
+            <div class="hover-content">
+                <p>Comprehensive legal support for family matters and domestic relations</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="corporatereg.html">
+        <div class="lawyer-box corporate">
+            <i class="icon fas fa-briefcase"></i>
+            <h2>Corporate</h2>
+            <h2>Lawyer</h2>
+            <div class="hover-content">
+                <p>Business legal services and corporate governance expertise</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="realstatereg.html">
+        <div class="lawyer-box real-estate">
+            <i class="icon fas fa-home"></i>
+            <h2>Real Estate</h2>
+            <h2>Lawyer</h2>
+            <div class="hover-content">
+                <p>Property law specialists for transactions and disputes</p>
+            </div>
+        </div>
+    </div>
+</a>
+</body>
+</html>
