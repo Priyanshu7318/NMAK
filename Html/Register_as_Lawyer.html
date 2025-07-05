@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as a Lawyer</title>
+    <link rel="stylesheet" href="../Css/Register_as_Lawyer.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Register as a Lawyer</h2>
+        <form id="signInForm">
+            <label for="mobile">Mobile No.</label>
+            <input type="tel" id="mobile" name="mobile" required>
+            <button type="button" id="sendMobileOtp">Send OTP</button>
+            <input type="text" id="mobileOtp" name="mobileOtp" placeholder="Enter Mobile OTP" required>
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select</option>
+                <option value="criminal">Criminal Law</option>
+                <option value="civil">Civil Law</option>
+                <option value="corporate">Corporate Law</option>
+                <option value="realestate">Real Estate Law</option>
+            </select>
+
+            <label for="aadhar">Aadhar Number</label>
+            <input type="text" id="aadhar" name="aadhar" placeholder="Enter 12-digit Aadhar Number" required>
+
+            <label for="pan">PAN Number</label>
+            <input type="text" id="pan" name="pan" required>
+
+            <div class="file-upload">
+                <label for="license">Upload License (PDF)</label>
+                <input type="file" id="license" name="license" accept=".pdf" required>
+            </div>
+
+            <label for="address">Address</label>
+            <textarea id="address" name="address" required></textarea>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="submit">Submit</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script src="../Js/Register_as_Lawyer.js"></script>
+
+</body>
+</html>

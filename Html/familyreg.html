@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as a Lawyer</title>
+    <link rel="stylesheet" href="../Css/familyreg.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Register as a Family Lawyer</h2>
+        <form id="signInForm">
+            <label for="mobile">Mobile No.</label>
+            <input type="tel" id="mobile" name="mobile" required>
+            <button type="button" id="sendMobileOtp">Send OTP</button>
+            <input type="text" id="mobileOtp" name="mobileOtp" placeholder="Enter Mobile OTP" required>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" placeholder="abcd@gmail.com"required>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+            <div class="file-upload">
+                <label for="photo">Upload Photo (JPG , JPGE)</label>
+                <input type="file" id="photo" name="photo" accept=".jpg , .jpeg" required>
+            </div>
+
+            <label for="aadhar">Aadhar Number</label>
+            <input type="text" id="aadhar" name="aadhar" placeholder="Enter 12-digit Aadhar Number" required>
+
+            <label for="pan">PAN Number</label>
+            <input type="text" id="pan" name="pan" required>
+
+            <div class="file-upload">
+                <label for="license">Upload License (PDF)</label>
+                <input type="file" id="license" name="license" accept=".pdf" required>
+            </div>
+
+            <label for="experience ">Experience </label>
+            <input type="text" id="experience " name="experience" placeholder="10+ Years" required>
+
+            <label for="winrate">Win Rate</label>
+             <input type="text" id="winrate" name="winrate" placeholder="89%"required>
+
+            <label for="notablearchievement">Notable Achievement</label>
+            <textarea id="notablearchievement" name="notablearchievement" placeholder="150+ Criminal cases
+98% IP Success Rate
+50 High-Value Wins
+            "required></textarea>
+
+            <label for="case">Case Handled</label>
+            <input type="text" id="case" name="case" placeholder="650+ Case handled"required>
+
+            <label for="casedistribution">Case Distribution</label>
+            <textarea id="casedistribution" name="casedistribution" placeholder="320 Corporate
+200 Criminal
+130 M&A
+            "required></textarea>
+            
+            <label for="detail">Details</label>
+            <textarea id="detail" name="detail" placeholder="Criminal law
+Mergers & Acquisitions
+Intellectual Property
+Cyber crime
+            "required></textarea>
+
+            <label for="address">Address</label>
+            <textarea id="address" name="address" required></textarea>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="submit">Submit</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script src="../Js/familyreg.js"></script>
+</body>
+</html>

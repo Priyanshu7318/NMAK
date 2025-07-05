@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Legal Assistance</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../Css/Emergency.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Emergency Legal Assistance</h1>
+            <button class="cta-button" onclick="getLocation()">
+                <i class="fas fa-crosshairs"></i>
+                Find Nearby Lawyers Now
+            </button>
+        </header>
+
+        <div id="map"></div>
+        <div class="lawyers-list" id="lawyersList"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../Js/Emergency.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0b0f3f;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.lawyer-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: float 3s ease-in-out infinite;
+}
+
+.lawyer-box:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.lawyer-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.lawyer-box:hover::before {
+    left: 100%;
+}
+
+.icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.lawyer-box h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Individual Box Colors */
+.criminal .icon { color: #ff4757; }
+.family .icon { color: #2ed573; }
+.corporate .icon { color: #1e90ff; }
+.real-estate .icon { color: #ffa502; }
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Hover Content */
+.hover-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(11, 15, 63, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: rotateY(180deg);
+    transition: all 0.5s ease;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.lawyer-box:hover .hover-content {
+    opacity: 1;
+    transform: rotateY(0deg);
+}
+
+.hover-content p {
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.active-lawyer {
+    box-shadow: 0 0 0 4px #1e90ff, 0 15px 30px rgba(0,0,0,0.3);
+    border: 2px solid #1e90ff;
+    z-index: 2;
+    transition: box-shadow 0.3s, border 0.3s;
+}
+
+.hover-animate {
+    transform: scale(1.07) translateY(-12px);
+    box-shadow: 0 20px 40px rgba(30, 144, 255, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
